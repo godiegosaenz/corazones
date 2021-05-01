@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('admin')->group(function () {
-    Route::get('/users', function () {
-        // Matches The "/admin/users" URL
-    });
+    Route::get('/', [LoginController::class, 'index'])->name('Showlogin')->middleware('guest');
+    Route::Post('/login', [LoginController::class, 'login'])->name('login')->middleware('auth');
+    Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');;
 });
 Route::get('/', function () {
     return view('w');
